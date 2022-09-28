@@ -11,12 +11,13 @@
   "main": "./lib/index.cjs",
   "types": "types/index.d.ts",
   "files": [
+    "index.js",
     "lib",
     "types"
   ],
   "author": "Donald Geddes",
   "licence": "MIT",
-  "repository": "https://github.com/handlebauer/create-porkbun-subdomain.git",
+  "repository": "https://github.com/c3-org/create-porkbun-subdomain.git",
   "publishConfig": {
     "access": "public"
   },
