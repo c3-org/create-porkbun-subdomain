@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createAddressRecord, getSubdomain } from './src/index.js'
 
 const stdout = console.log
