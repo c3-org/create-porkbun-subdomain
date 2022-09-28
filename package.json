@@ -11,6 +11,7 @@
   "main": "./lib/index.cjs",
   "types": "types/index.d.ts",
   "files": [
+    "src",
     "index.js",
     "lib",
     "types"
