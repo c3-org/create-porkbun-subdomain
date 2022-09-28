@@ -2,10 +2,6 @@ import fetch from 'node-fetch'
 import { buildURL } from '@hbauer/convenience-functions'
 import { splitLines, loadWords, selectWord } from './helpers.js'
 
-const stdout = console.log
-
-const targetDomain = process.env.TARGET_DOMAIN
-
 /**
  * @param {string} targetDomain
  * @returns {Promise<string[]>}
@@ -44,13 +40,14 @@ function getInstanceNames(targetDomain) {
 
 /**
  * Return a unique subdomain name
+ * @param {string} targetDomain
  * @param {string} path
  * @returns {Promise<string>}
  */
-export const getSubdomain = async path => {
+export const getSubdomain = async (targetDomain, path) => {
   const name = await loadWords(path).then(splitLines).then(selectWord)
   const names = await getInstanceNames(targetDomain)
-  return names.includes(name) ? getSubdomain(path) : name
+  return names.includes(name) ? getSubdomain(path, targetDomain) : name
 }
 
 /**
@@ -59,7 +56,7 @@ export const getSubdomain = async path => {
  * @param {string} subdomain
  * @returns {Promise<{ status: string, message: string }>}
  */
-function createAddressRecord(targetDomain, subdomain) {
+export function createAddressRecord(targetDomain, subdomain) {
   const url = buildURL({
     host: 'https://porkbun.com',
     path: `api/json/v3/dns/create/${targetDomain}`,
@@ -82,12 +79,3 @@ function createAddressRecord(targetDomain, subdomain) {
   // @ts-ignore
   return fetch(url, init).then(response => response.json())
 }
-
-// Wrapped because CJS build complains otherwise
-async function run() {
-  const subdomain = await getSubdomain('./src/five-letter-words')
-  const { status, message } = await createAddressRecord(targetDomain, subdomain)
-  stdout(status === 'SUCCESS' ? true : message)
-}
-
-run()
