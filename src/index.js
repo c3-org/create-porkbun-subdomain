@@ -4,14 +4,16 @@ import { splitLines, loadWords, selectWord } from './helpers.js'
 
 const stdout = console.log
 
+const targetDomain = process.env.TARGET_DOMAIN
+
 /**
- * @param {string} domain
+ * @param {string} targetDomain
  * @returns {Promise<string[]>}
  */
-function getInstanceNames(domain) {
+function getInstanceNames(targetDomain) {
   const url = buildURL({
     host: 'https://porkbun.com',
-    path: `api/json/v3/dns/retrieve/${domain}`,
+    path: `api/json/v3/dns/retrieve/${targetDomain}`,
   })
 
   /**
@@ -47,27 +49,27 @@ function getInstanceNames(domain) {
  */
 export const getSubdomain = async path => {
   const name = await loadWords(path).then(splitLines).then(selectWord)
-  const names = await getInstanceNames(domain)
+  const names = await getInstanceNames(targetDomain)
   return names.includes(name) ? getSubdomain(path) : name
 }
 
 /**
  *
- * @param {string} domain
+ * @param {string} targetDomain
  * @param {string} subdomain
  * @returns {Promise<{ status: string, message: string }>}
  */
-function createAddressRecord(domain, subdomain) {
+function createAddressRecord(targetDomain, subdomain) {
   const url = buildURL({
     host: 'https://porkbun.com',
-    path: `api/json/v3/dns/create/${domain}`,
+    path: `api/json/v3/dns/create/${targetDomain}`,
   })
 
   const body = {
     secretapikey: process.env.API_SECRET,
     apikey: process.env.API_KEY,
     name: subdomain,
-    type: 'asdadsf',
+    type: 'A',
     content: process.env.INSTANCE_IP,
   }
 
@@ -81,8 +83,11 @@ function createAddressRecord(domain, subdomain) {
   return fetch(url, init).then(response => response.json())
 }
 
-const domain = process.env.TARGET_DOMAIN
-const subdomain = await getSubdomain('./src/five-letter-words')
-const { status, message } = await createAddressRecord(domain, subdomain)
+// Wrapped because CJS build complains otherwise
+async function run() {
+  const subdomain = await getSubdomain('./src/five-letter-words')
+  const { status, message } = await createAddressRecord(targetDomain, subdomain)
+  stdout(status === 'SUCCESS' ? true : message)
+}
 
-stdout(status === 'SUCCESS' ? true : message)
+run()
