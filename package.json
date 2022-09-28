@@ -1,0 +1,44 @@
+{
+  "name": "create-porkbun-subdomain",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "import": "./lib/index.mjs",
+    "require": "./lib/index.cjs"
+  },
+  "module": "./lib/index.mjs",
+  "main": "./lib/index.cjs",
+  "types": "types/index.d.ts",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "author": "Donald Geddes",
+  "licence": "MIT",
+  "repository": "https://github.com/handlebauer/create-porkbun-subdomain.git",
+  "publishConfig": {
+    "access": "public"
+  },
+  "prettier": "@hbauer/prettier-config",
+  "eslintConfig": {
+    "extends": "@hbauer/eslint-config"
+  },
+  "scripts": {
+    "build": "shx rm -rf ./lib && rollup -c",
+    "types": "shx rm -rf ./types && tsc -p jsconfig.json",
+    "prepare": "npm run types && npm run build",
+    "test": "ava"
+  },
+  "devDependencies": {
+    "@hbauer/eslint-config": "^1.4.1",
+    "@hbauer/prettier-config": "^1.1.0",
+    "ava": "^4.3.3",
+    "eslint": "^8.24.0",
+    "eslint-plugin-import": "^2.26.0",
+    "husky": "^8.0.1",
+    "prettier": "^2.7.1",
+    "rollup": "^2.79.1",
+    "shx": "^0.3.4",
+    "typescript": "^4.8.4"
+  }
+}
