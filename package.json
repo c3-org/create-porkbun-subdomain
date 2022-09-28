@@ -1,5 +1,5 @@
 {
-  "name": "create-porkbun-subdomain",
+  "name": "@cultur3/create-porkbun-subdomain",
   "version": "0.2.0",
   "type": "module",
   "exports": {
