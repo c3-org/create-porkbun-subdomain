@@ -17,7 +17,8 @@ async function run() {
   const info = {
     success: status === 'SUCCESS' && true,
     message,
-    domain: subdomain + targetDomain,
+    subdomain,
+    domain: subdomain + '.' + targetDomain,
   }
   stdout(JSON.stringify(info))
 }
