@@ -10,7 +10,7 @@ const dirname = _dirname(import.meta.url)
 async function run() {
   const targetDomain = process.env.TARGET_DOMAIN
 
-  const pathToFiveLetterWords = join(dirname, 'src/five-letter-words')
+  const pathToFiveLetterWords = join(dirname, 'src/nice-words')
   const subdomain = await getSubdomain(targetDomain, pathToFiveLetterWords)
   const { status, message } = await createAddressRecord(targetDomain, subdomain)
 
