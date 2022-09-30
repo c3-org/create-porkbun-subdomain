@@ -12,6 +12,8 @@ function getInstanceNames(targetDomain) {
     path: `api/json/v3/dns/retrieve/${targetDomain}`,
   })
 
+  console.log(url)
+
   /**
    * @param {{ records: { name: string, type: string }[] }} param0
    * @returns
