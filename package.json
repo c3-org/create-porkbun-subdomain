@@ -1,6 +1,6 @@
 {
   "name": "@cultur3/create-porkbun-subdomain",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "type": "module",
   "bin": "./index.js",
   "exports": {
